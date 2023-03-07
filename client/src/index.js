@@ -30,9 +30,12 @@ function App() {
     setIsLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:8000/categorize", {
-        tweets: [inputValue],
-      });
+      const response = await axios.post(
+        "https://tweetbase-demo.vercel.app/categorize",
+        {
+          tweets: [inputValue],
+        }
+      );
       setCategorizedTweets([
         ...categorizedTweets,
         ...response.data.categorizedTweets,
