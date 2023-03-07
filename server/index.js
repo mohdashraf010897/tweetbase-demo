@@ -43,8 +43,11 @@ app.post("/categorize", async (req, res) => {
 
 async function categorizeTweet(tweet) {
   const API_KEY = process.env.OPENAI_API_KEY;
+  if (!API_KEY) {
+    throw Error("API key not found!");
+  }
   const configuration = new Configuration({
-    apiKey: API_KEY || "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",
+    apiKey: API_KEY,
   });
   const openai = new OpenAIApi(configuration);
   const requestBody = {
