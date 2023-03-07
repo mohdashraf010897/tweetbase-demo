@@ -54,6 +54,11 @@ button:hover {
   background-color: #005ea6;
 }
 
+button:disabled {
+  background-color: #777;
+  cursor: not-allowed;
+}
+
 /* Style the categorized tweets */
 ul {
   list-style-type: none;
@@ -81,4 +86,9 @@ li {
   margin-right: 10px;
   font-size: 14px;
   color: #666;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
 }

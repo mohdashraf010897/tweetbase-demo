@@ -27,9 +27,11 @@ app.post("/categorize", async (req, res) => {
       finalResults.push({ tweet, categories: categorizedTweets[tweet] });
     } else {
       const { tweet: resTweet, categories: responseCategories } =
-        await categorizeTweet(tweet);
+        (await categorizeTweet(tweet)) ?? {};
       console.log(`Categorizing tweet: ${tweet}`, resTweet, responseCategories);
-
+      if (!responseCategories) {
+        continue;
+      }
       categorizedTweets[resTweet] = responseCategories;
 
       finalResults.push({ tweet, categories: responseCategories });
@@ -71,7 +73,7 @@ async function categorizeTweet(tweet) {
     return { tweet, categories };
   } catch (error) {
     console.error(error);
-    return { tweet, categories: [] };
+    return null;
   }
 }
 
