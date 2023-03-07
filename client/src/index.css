@@ -1,0 +1,80 @@
+/* Set global styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f1f1f1;
+}
+
+/* Style the form */
+form {
+  width: 70vw;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+/* Style the form fields */
+label {
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+input[type="text"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 20px auto;
+  font-size: 16px;
+  width: 100%;
+}
+
+button {
+  padding: 10px;
+  background-color: #0077cc;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #005ea6;
+}
+
+/* Style the categorized tweets */
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+.category {
+  background-color: #e6e6e6;
+  padding: 5px;
+  border-radius: 4px;
+  margin-right: 10px;
+  font-size: 14px;
+  color: #666;
+}
