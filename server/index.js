@@ -11,10 +11,6 @@ app.use(cors());
 
 const categorizedTweets = {};
 
-app.use("/", (req, res) => {
-  res.send("Greetings from categorizer server");
-});
-
 app.post("/categorize", async (req, res) => {
   const tweets = req.body.tweets;
 
@@ -23,31 +19,30 @@ app.post("/categorize", async (req, res) => {
     return;
   }
 
-  const categories = [];
+  const finalResults = [];
 
   for (const tweet of tweets) {
     if (categorizedTweets[tweet]) {
       console.log(`Returning cached categories for ${tweet}`);
-      categories.push(categorizedTweets[tweet]);
+      finalResults.push({ tweet, categories: categorizedTweets[tweet] });
     } else {
-      console.log(`Categorizing tweet: ${tweet}`);
-
       const { tweet: resTweet, categories: responseCategories } =
         await categorizeTweet(tweet);
+      console.log(`Categorizing tweet: ${tweet}`, resTweet, responseCategories);
 
       categorizedTweets[resTweet] = responseCategories;
 
-      categories.push(responseCategories);
+      finalResults.push({ tweet, categories: responseCategories });
     }
   }
 
-  res.json({ categories });
+  res.json({ categorizedTweets: finalResults });
 });
 
 async function categorizeTweet(tweet) {
   const API_KEY = process.env.OPENAI_API_KEY;
   const configuration = new Configuration({
-    apiKey: API_KEY || "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",
+    apiKey: API_KEY || "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",
   });
   const openai = new OpenAIApi(configuration);
   const requestBody = {
@@ -59,10 +54,16 @@ async function categorizeTweet(tweet) {
 
   try {
     const response = await openai.createCompletion(requestBody);
+    console.log(
+      "🚀 ~ file: index.js:57 ~ categorizeTweet ~ response:",
+      response.data.choices
+    );
 
     let categories = [];
     const regex = /(\[.*\])|(\{.*\})/gm;
-    const match = regex.exec(response.data.choices[0].text);
+    const match = regex.exec(
+      response.data.choices[0].text.replace(/[\r\n]/gm, "")
+    );
     if (match) {
       categories = match[0];
       return JSON.parse(categories);
@@ -73,6 +74,10 @@ async function categorizeTweet(tweet) {
     return { tweet, categories: [] };
   }
 }
+
+app.use("/", (req, res) => {
+  res.send("Greetings from categorizer server");
+});
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
